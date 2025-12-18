@@ -1,7 +1,17 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaWhatsapp } from "react-icons/fa";
 
 const Software = () => {
+  const handleWhatsAppClick = () => {
+    const phoneNumber = "+91 - 9571677609";
+    const message = "Hello, I have a question about your products.";
+    window.open(
+      `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
+      "_blank"
+    );
+  };
+
   // Banner carousel state with useMemo to prevent unnecessary recalculations
   const bannerImages = useMemo(
     () => [
@@ -35,11 +45,6 @@ const Software = () => {
         detailedDescription:
           "Ensure the battery is fully charged before connecting. The battery connector is designed to fit only one way - align the pins properly before applying pressure. A secure connection will power all the onboard LEDs.",
         image: "Get_Start_With_Leela/Battery_Connect_Step1.png",
-        tips: [
-          "Use only the recommended battery type",
-          "Check polarity before connecting",
-          "Ensure battery is charged to 3.7V or higher",
-        ],
       },
       {
         step: 2,
@@ -49,11 +54,6 @@ const Software = () => {
         detailedDescription:
           "The USB-C port provides both power and data connectivity. Use a high-quality USB-C cable that supports data transfer. This method is ideal when programming the board or when you need stable power for extended periods.",
         image: "Get_Start_With_Leela/USB_C_Cable_Step2.png",
-        tips: [
-          "Use certified USB-C cables",
-          "Ensure 5V/2A power adapter",
-          "Cable should support data transfer",
-        ],
       },
       {
         step: 3,
@@ -63,11 +63,6 @@ const Software = () => {
         detailedDescription:
           "Locate the power switch on the edge of the board. Slide it to the ON position. You should see the status LED light up indicating the board is receiving power. The board will now initialize its components.",
         image: "Get_Start_With_Leela/Switch_On_leela_Step3.png",
-        tips: [
-          "Wait for status LED indicator",
-          "Allow 10-15 seconds for boot-up",
-          "Check all components are detected",
-        ],
       },
       {
         step: 4,
@@ -77,11 +72,6 @@ const Software = () => {
         detailedDescription:
           "Your Leela board is now ready for action! Explore the various sensors, motors, and interfaces. The board comes pre-loaded with demo programs that you can run immediately to test all functionalities.",
         image: "Get_Start_With_Leela/Robotics_Play_world_Step4.png",
-        tips: [
-          "Run demo programs first",
-          "Familiarize with sensor locations",
-          "Check motor connections",
-        ],
       },
     ],
     []
@@ -97,11 +87,6 @@ const Software = () => {
         detailedDescription:
           "Download and install PictoBlox from the official website. Launch the application and navigate to the settings menu. Enable Bluetooth pairing mode to allow connection with your Leela board.",
         image: "Get_Start_With_Leela/Pictoblox_Step1.jpeg",
-        tips: [
-          "Ensure Bluetooth is enabled on device",
-          "Use latest version of PictoBlox",
-          "Grant necessary permissions",
-        ],
       },
       {
         step: 2,
@@ -111,11 +96,6 @@ const Software = () => {
         detailedDescription:
           "Press and hold the pairing button on your Leela board for 3 seconds until the Bluetooth LED starts blinking rapidly. This indicates the board is discoverable and ready to connect.",
         image: "Get_Start_With_Leela/Pictoblox_Step2.jpeg",
-        tips: [
-          "Bluetooth LED should blink rapidly",
-          "Board should be within 10 feet",
-          "Remove other Bluetooth interference",
-        ],
       },
       {
         step: 3,
@@ -125,11 +105,6 @@ const Software = () => {
         detailedDescription:
           "In PictoBlox, go to the Connect menu and scan for available devices. Look for 'Leela Board' in the list. The device ID usually starts with 'LEELA-' followed by numbers.",
         image: "Get_Start_With_Leela/Pictoblox_Step3.jpeg",
-        tips: [
-          "Refresh list if not visible",
-          "Check device name matches",
-          "Ensure only one Leela board is nearby",
-        ],
       },
       {
         step: 4,
@@ -139,11 +114,6 @@ const Software = () => {
         detailedDescription:
           "Click on your Leela board in the devices list. PictoBlox will attempt to establish connection. A success message and connected status indicator will appear once the pairing is complete.",
         image: "Get_Start_With_Leela/Pictoblox_Step4.jpeg",
-        tips: [
-          "Connection takes 10-30 seconds",
-          "Status indicator turns green when connected",
-          "Keep devices close during pairing",
-        ],
       },
       {
         step: 5,
@@ -153,11 +123,6 @@ const Software = () => {
         detailedDescription:
           "Now you can drag and drop blocks from the palette to create programs. Test basic commands like controlling LEDs or reading sensor values to verify the connection is working properly.",
         image: "Get_Start_With_Leela/Pictoblox_Step5.jpeg",
-        tips: [
-          "Start with simple blink program",
-          "Test each sensor individually",
-          "Save your project frequently",
-        ],
       },
     ],
     []
@@ -173,11 +138,6 @@ const Software = () => {
         detailedDescription:
           "Visit arduino.cc/en/software and download the latest version compatible with your operating system. The IDE is available for Windows, MacOS, and Linux systems.",
         image: "Get_Start_With_Leela/Ardino_Connects_1.png",
-        tips: [
-          "Download version 1.8.x or newer",
-          "Use Chrome for reliable download",
-          "Verify file integrity after download",
-        ],
       },
       {
         step: 2,
@@ -187,11 +147,6 @@ const Software = () => {
         detailedDescription:
           "Open Arduino IDE, go to File > Preferences. In Additional Boards Manager URLs, add the Leela board repository URL. Then go to Tools > Board > Boards Manager and install the Leela board package.",
         image: "Get_Start_With_Leela/Ardino_connect_2.png",
-        tips: [
-          "Stable internet connection required",
-          "Restart IDE after installation",
-          "Verify package installation in boards list",
-        ],
       },
       {
         step: 3,
@@ -201,11 +156,6 @@ const Software = () => {
         detailedDescription:
           "Use a high-quality USB-C cable that supports data transfer. Connect the Leela board to your computer. The board should be detected and appear in the device manager/port list.",
         image: "Get_Start_With_Leela/Ardino_Connect_3.png",
-        tips: [
-          "Use data-capable USB cable",
-          "Check device recognition in system",
-          "Ensure proper driver installation",
-        ],
       },
       {
         step: 4,
@@ -215,11 +165,6 @@ const Software = () => {
         detailedDescription:
           "In Arduino IDE, go to Tools > Board and select 'Leela Robotics Board'. Then go to Tools > Port and select the COM port assigned to your Leela board (on Windows) or /dev/ttyUSB* (on Linux) or /dev/cu.* (on Mac).",
         image: "Get_Start_With_Leela/Ardino_Connect_4.png",
-        tips: [
-          "Port disappears if cable disconnected",
-          "Select exact Leela board variant",
-          "Baud rate should be 115200",
-        ],
       },
       {
         step: 5,
@@ -229,11 +174,6 @@ const Software = () => {
         detailedDescription:
           "Start with a simple blink program to verify the setup. Write the code, click the upload button, and watch the compilation and upload process. The onboard LED should start blinking upon successful upload.",
         image: "Get_Start_With_Leela/Ardino_Connect_5.png",
-        tips: [
-          "Check serial monitor for debug info",
-          "Verify code compilation before upload",
-          "Reset board if upload fails",
-        ],
       },
     ],
     []
@@ -242,25 +182,25 @@ const Software = () => {
   const features = useMemo(
     () => [
       {
-        icon: "🚀",
+        icon: <i class="fa-brands fa-bluetooth"></i>,
         title: "Powerful ESP32 Processor",
         description:
           "Dual-core processor with Wi-Fi and Bluetooth capabilities for advanced robotics applications",
       },
       {
-        icon: "🔌",
+        icon: <i className="fa-solid fa-wifi text-2xl"></i>,
         title: "Multiple Connectivity Options",
         description:
           "USB-C, Bluetooth, Wi-Fi, and multiple GPIO pins for versatile project connections",
       },
       {
-        icon: "🧩",
+        icon: <i className="fa-solid fa-puzzle-piece text-2xl"></i>,
         title: "Easy Expansion",
         description:
           "Compatible with various sensors, motors, and add-on modules for endless possibilities",
       },
       {
-        icon: "👨‍💻",
+        icon: <i className="fa-solid fa-terminal text-2xl"></i>,
         title: "Dual Programming Support",
         description:
           "Support for both block-based (PictoBlox) and text-based (Arduino) programming",
@@ -391,23 +331,6 @@ const Software = () => {
             <p className="text-gray-600 leading-relaxed mb-6 text-sm lg:text-base">
               {step.detailedDescription}
             </p>
-
-            {step.tips && (
-              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
-                <h4 className="font-semibold text-yellow-800 mb-2 flex items-center">
-                  <span className="text-lg mr-2">💡</span>
-                  Pro Tips
-                </h4>
-                <ul className="text-yellow-700 text-sm space-y-1">
-                  {step.tips.map((tip, tipIndex) => (
-                    <li key={tipIndex} className="flex items-start">
-                      <span className="mr-2">•</span>
-                      {tip}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
         </div>
 
@@ -590,7 +513,7 @@ const Software = () => {
       </section>
 
       {/* Get Started Section */}
-      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-white">
+      {/* <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -617,7 +540,7 @@ const Software = () => {
             />
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* System Requirements Section */}
       <section className="py-12 sm:py-16 lg:py-20 bg-white">
@@ -805,33 +728,23 @@ const Software = () => {
             transition={{ duration: 0.6 }}
             className="text-center mt-12 sm:mt-20"
           >
-            <div className="bg-gradient-to-r from-[#e12213] to-[#102348] rounded-3xl p-6 sm:p-8 lg:p-12 max-w-4xl mx-auto text-white shadow-2xl relative overflow-hidden">
+            <div className="bg-gradient-to-r from-[#e12213] to-[#440fc2] rounded-3xl p-6 sm:p-8 lg:p-12 max-w-4xl mx-auto text-white shadow-2xl relative overflow-hidden">
               <div className="absolute inset-0 opacity-10">
                 <div className="absolute top-0 right-0 w-32 h-32 sm:w-64 sm:h-64 bg-white rounded-full -mt-16 -mr-16 sm:-mt-32 sm:-mr-32"></div>
                 <div className="absolute bottom-0 left-0 w-32 h-32 sm:w-64 sm:h-64 bg-white rounded-full -mb-16 -ml-16 sm:-mb-32 sm:-ml-32"></div>
               </div>
 
               <div className="relative z-10">
-                <motion.div
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="text-4xl sm:text-6xl mb-4 sm:mb-6"
-                >
-                  🎉
-                </motion.div>
                 <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">
                   Hurray! Connection Successful!
                 </h3>
-                <p className="text-lg sm:text-xl opacity-90 mb-6 sm:mb-8">
-                  You are all set to write programs in the scripting area. Start
-                  with basic blocks and gradually explore advanced features!
-                </p>
+
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="bg-white text-blue-600 px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl transition-all"
                 >
-                  Start Your First Project
+                  <a href="/projects"> Start Your First Project</a>
                 </motion.button>
               </div>
             </div>
@@ -899,7 +812,7 @@ const Software = () => {
               whileTap={{ scale: 0.95 }}
               className="bg-gradient-to-r from-[#e12213] to-[#ea8e0a] text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all"
             >
-              Get Support
+              <a href="/contact"> Contact Us</a>
             </motion.button>
           </motion.div>
         </div>
@@ -942,13 +855,6 @@ const Software = () => {
               </div>
 
               <div className="relative z-10">
-                <motion.div
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="text-4xl sm:text-6xl mb-4 sm:mb-6"
-                >
-                  🚀
-                </motion.div>
                 <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">
                   Awesome! Setup Complete!
                 </h3>
@@ -963,14 +869,7 @@ const Software = () => {
                     whileTap={{ scale: 0.95 }}
                     className="bg-white text-[#070a18] px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl transition-all"
                   >
-                    View Examples
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-transparent border-2 border-white text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-white hover:text-[#db311f] transition-all"
-                  >
-                    Documentation
+                    <a href="/contact"> Send Message</a>
                   </motion.button>
                 </div>
               </div>
@@ -1005,15 +904,15 @@ const Software = () => {
                 whileTap={{ scale: 0.95 }}
                 className="bg-white text-[#e12213] px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold text-base sm:text-lg shadow-lg"
               >
-                Get Leela Board Now
+                <a href="/contact">Get Leela Board Now</a>
               </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-transparent border-2 border-white text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-white hover:text-[#e12213] transition-all"
+              <button
+                onClick={handleWhatsAppClick}
+                className="px-10 py-4 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-3"
               >
+                <FaWhatsapp className="text-2xl" />
                 Join Community
-              </motion.button>
+              </button>
             </div>
             <p className="mt-6 sm:mt-8 opacity-75 text-sm sm:text-base">
               Need help? Contact our support team or visit our documentation

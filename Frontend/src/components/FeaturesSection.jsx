@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Pointer } from "lucide-react";
 
 const FEATURES = [
   {
@@ -116,9 +117,12 @@ export default function FeaturesSectionClean() {
             <p className="mb-6 opacity-90">
               Explore all features and start building with Leela today
             </p>
-            <button className="bg-white text-[#e12213] px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
-              View Documentation
-            </button>
+
+            <a href="/contact">
+              <button className="bg-white cursor-pointer text-[#e12213] px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
+                Submit Enquiry
+              </button>
+            </a>
           </div>
         </motion.div>
       </div>

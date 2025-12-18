@@ -232,8 +232,8 @@ export default function Contact() {
               </div>
               <h3 className="font-bold text-xl text-gray-800 mb-2">Visit Us</h3>
               <p className="text-gray-600 mb-2">
-                Aaklan, IT - 9 A, EPIP, IT Park Rd, near Hotel Marigold,
-                Sitapura Industrial Area, Sitapura, Jaipur, Rajasthan 302022
+                Aaklan, IT - 9 A, EPIP, IT Park Rd Sitapura Industrial Area,
+                Sitapura, Jaipur, Rajasthan 302022
               </p>
               <p className="text-gray-500 text-sm">Rajasthan, India - 342001</p>
             </div>
@@ -245,8 +245,8 @@ export default function Contact() {
               <h3 className="font-bold text-xl text-gray-800 mb-2">
                 Business Hours
               </h3>
-              <p className="text-gray-600 mb-2">Mon - Fri: 9AM - 6PM</p>
-              <p className="text-gray-500 text-sm">Sat: 10AM - 4PM</p>
+              <p className="text-gray-600 mb-2">Mon - Sat: 9AM - 5PM</p>
+              <p className="text-gray-500 text-sm">Sun: closed</p>
             </div>
           </div>
         </div>
@@ -276,7 +276,7 @@ export default function Contact() {
               </button>
 
               <a
-                href="tel:+919876543210"
+                href="tel:+919571677609"
                 className="px-10 py-4 bg-white text-blue-700 hover:bg-gray-100 font-bold rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-3"
               >
                 <FaPhone />

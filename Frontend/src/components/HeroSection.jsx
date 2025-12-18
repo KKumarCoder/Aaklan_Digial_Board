@@ -212,7 +212,9 @@ const HeroSection = () => {
                   whileHover={{ x: "0%" }}
                   transition={{ duration: 0.3 }}
                 />
-                <span className="relative z-10">Get LEELA Kit</span>
+                <span className="relative z-10">
+                  <a href="/contact">Get LEELA Kit</a>
+                </span>
                 <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
               </motion.button>
               <motion.button

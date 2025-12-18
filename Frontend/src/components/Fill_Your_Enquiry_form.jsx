@@ -92,13 +92,10 @@ const Fill_Your_Enquiry_form = () => {
         if (response.data.devMode) {
           setDevMode(true);
           setDevOTP(response.data.otp);
-          toast.success(
-            `OTP sent (Dev Mode): ${response.data.otp}`,
-            {
-              duration: 6000,
-              icon: "🔧",
-            }
-          );
+          toast.success(`OTP sent (Dev Mode): ${response.data.otp}`, {
+            duration: 6000,
+            icon: "🔧",
+          });
         } else {
           setDevMode(false);
           toast.success("OTP sent to your mobile number!");
@@ -109,9 +106,9 @@ const Fill_Your_Enquiry_form = () => {
     } catch (error) {
       console.error("OTP Request Error:", error);
       toast.error(
-        error.response?.data?.message || 
-        error.message || 
-        "Failed to send OTP. Please check your internet connection."
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to send OTP. Please check your internet connection."
       );
     } finally {
       setIsLoading(false);
@@ -144,8 +141,8 @@ const Fill_Your_Enquiry_form = () => {
     } catch (error) {
       console.error("OTP Verification Error:", error);
       toast.error(
-        error.response?.data?.message || 
-        "Invalid or expired OTP. Please request a new one."
+        error.response?.data?.message ||
+          "Invalid or expired OTP. Please request a new one."
       );
     } finally {
       setIsLoading(false);
@@ -193,10 +190,13 @@ const Fill_Your_Enquiry_form = () => {
       );
 
       if (response.data.success) {
-        toast.success("Enquiry submitted successfully! We'll contact you soon.", {
-          duration: 5000,
-          icon: "🎉",
-        });
+        toast.success(
+          "Enquiry submitted successfully! We'll contact you soon.",
+          {
+            duration: 5000,
+            icon: "🎉",
+          }
+        );
 
         // Reset form
         setFormData({
@@ -219,16 +219,16 @@ const Fill_Your_Enquiry_form = () => {
       }
     } catch (error) {
       console.error("Submit Error:", error);
-      
+
       if (error.response?.data?.errors) {
         // Handle validation errors
-        error.response.data.errors.forEach(err => {
+        error.response.data.errors.forEach((err) => {
           toast.error(err);
         });
       } else {
         toast.error(
-          error.response?.data?.message || 
-          "Failed to submit enquiry. Please try again."
+          error.response?.data?.message ||
+            "Failed to submit enquiry. Please try again."
         );
       }
     } finally {
@@ -262,7 +262,8 @@ const Fill_Your_Enquiry_form = () => {
             <h1 className="text-4xl font-bold text-gray-900">Get in Touch</h1>
           </div>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            We'd love to hear from you. Send us your enquiry and we'll respond within 24-48 hours.
+            We'd love to hear from you. Send us your enquiry and we'll respond
+            within 24-48 hours.
           </p>
           <div className="w-32 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full"></div>
         </div>
@@ -377,28 +378,33 @@ const Fill_Your_Enquiry_form = () => {
                     <div className="flex-1">
                       <p className="text-sm font-medium text-blue-800 mb-1">
                         Enter 6-digit OTP sent to{" "}
-                        <span className="font-bold">+91 {formatMobile(formData.mobile)}</span>
+                        <span className="font-bold">
+                          +91 {formatMobile(formData.mobile)}
+                        </span>
                       </p>
                       <p className="text-xs text-blue-600 mb-3">
                         OTP expires in {Math.floor(otpCountdown / 60)}:
                         {(otpCountdown % 60).toString().padStart(2, "0")}
                       </p>
-                      
+
                       {devMode && devOTP && (
                         <div className="mb-3 p-2 bg-yellow-50 border border-yellow-200 rounded">
                           <p className="text-xs text-yellow-800 font-medium">
-                            🔧 Dev Mode OTP: <span className="font-bold">{devOTP}</span>
+                            🔧 Dev Mode OTP:{" "}
+                            <span className="font-bold">{devOTP}</span>
                           </p>
                         </div>
                       )}
-                      
+
                       <div className="flex flex-col sm:flex-row gap-3">
                         <div className="flex-1">
                           <input
                             type="text"
                             value={otp}
                             onChange={(e) =>
-                              setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))
+                              setOtp(
+                                e.target.value.replace(/\D/g, "").slice(0, 6)
+                              )
                             }
                             className="w-full px-4 py-2 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-lg font-mono"
                             placeholder="123456"
@@ -448,7 +454,8 @@ const Fill_Your_Enquiry_form = () => {
                         ✅ Mobile number verified successfully!
                       </p>
                       <p className="text-xs text-green-600 mt-1">
-                        Your mobile +91 {formatMobile(formData.mobile)} is verified and ready for submission
+                        Your mobile +91 {formatMobile(formData.mobile)} is
+                        verified and ready for submission
                       </p>
                     </div>
                   </div>
@@ -491,50 +498,111 @@ const Fill_Your_Enquiry_form = () => {
                 disabled={isLoading}
               />
               <div className="flex justify-between mt-2">
-                <span className={`text-sm ${messageCount > 5000 ? "text-red-500" : "text-gray-500"}`}>
+                <span
+                  className={`text-sm ${
+                    messageCount > 5000 ? "text-red-500" : "text-gray-500"
+                  }`}
+                >
                   {messageCount}/5000 characters
                 </span>
-                <span className={`text-sm ${formData.message.length < 10 ? "text-red-500" : "text-gray-500"}`}>
-                  {formData.message.length < 10 
+                <span
+                  className={`text-sm ${
+                    formData.message.length < 10
+                      ? "text-red-500"
+                      : "text-gray-500"
+                  }`}
+                >
+                  {formData.message.length < 10
                     ? `${10 - formData.message.length} more characters required`
-                    : "✓ Minimum length met"
-                  }
+                    : "✓ Minimum length met"}
                 </span>
               </div>
             </div>
 
             {/* Validation Summary */}
-            {formData.name && formData.email && formData.mobile && formData.subject && formData.message && (
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="text-sm font-medium text-gray-700 mb-2">Form Status:</p>
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${formData.name.trim() ? "bg-green-500" : "bg-red-500"}`}></div>
-                    <span className="text-xs text-gray-600">Name {formData.name.trim() ? "✓" : "✗"}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${/\S+@\S+\.\S+/.test(formData.email) ? "bg-green-500" : "bg-red-500"}`}></div>
-                    <span className="text-xs text-gray-600">Email {/\S+@\S+\.\S+/.test(formData.email) ? "✓" : "✗"}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${formData.mobile.length === 10 ? "bg-green-500" : "bg-red-500"}`}></div>
-                    <span className="text-xs text-gray-600">Mobile {formData.mobile.length === 10 ? "✓" : "✗"}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${formData.subject.trim().length >= 5 ? "bg-green-500" : "bg-red-500"}`}></div>
-                    <span className="text-xs text-gray-600">Subject {formData.subject.trim().length >= 5 ? "✓" : "✗"}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${formData.message.trim().length >= 10 ? "bg-green-500" : "bg-red-500"}`}></div>
-                    <span className="text-xs text-gray-600">Message {formData.message.trim().length >= 10 ? "✓" : "✗"}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${isOtpVerified ? "bg-green-500" : "bg-red-500"}`}></div>
-                    <span className="text-xs text-gray-600">OTP Verification {isOtpVerified ? "✓" : "✗"}</span>
+            {formData.name &&
+              formData.email &&
+              formData.mobile &&
+              formData.subject &&
+              formData.message && (
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm font-medium text-gray-700 mb-2">
+                    Form Status:
+                  </p>
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={`w-2 h-2 rounded-full ${
+                          formData.name.trim() ? "bg-green-500" : "bg-red-500"
+                        }`}
+                      ></div>
+                      <span className="text-xs text-gray-600">
+                        Name {formData.name.trim() ? "✓" : "✗"}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={`w-2 h-2 rounded-full ${
+                          /\S+@\S+\.\S+/.test(formData.email)
+                            ? "bg-green-500"
+                            : "bg-red-500"
+                        }`}
+                      ></div>
+                      <span className="text-xs text-gray-600">
+                        Email {/\S+@\S+\.\S+/.test(formData.email) ? "✓" : "✗"}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={`w-2 h-2 rounded-full ${
+                          formData.mobile.length === 10
+                            ? "bg-green-500"
+                            : "bg-red-500"
+                        }`}
+                      ></div>
+                      <span className="text-xs text-gray-600">
+                        Mobile {formData.mobile.length === 10 ? "✓" : "✗"}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={`w-2 h-2 rounded-full ${
+                          formData.subject.trim().length >= 5
+                            ? "bg-green-500"
+                            : "bg-red-500"
+                        }`}
+                      ></div>
+                      <span className="text-xs text-gray-600">
+                        Subject{" "}
+                        {formData.subject.trim().length >= 5 ? "✓" : "✗"}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={`w-2 h-2 rounded-full ${
+                          formData.message.trim().length >= 10
+                            ? "bg-green-500"
+                            : "bg-red-500"
+                        }`}
+                      ></div>
+                      <span className="text-xs text-gray-600">
+                        Message{" "}
+                        {formData.message.trim().length >= 10 ? "✓" : "✗"}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={`w-2 h-2 rounded-full ${
+                          isOtpVerified ? "bg-green-500" : "bg-red-500"
+                        }`}
+                      ></div>
+                      <span className="text-xs text-gray-600">
+                        OTP Verification {isOtpVerified ? "✓" : "✗"}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* Submit Button */}
             <div className="pt-4">
@@ -559,7 +627,7 @@ const Fill_Your_Enquiry_form = () => {
                   </>
                 )}
               </button>
-              
+
               {!isOtpVerified && (
                 <p className="text-sm text-red-500 mt-2 text-center">
                   ⚠️ Please verify your mobile number with OTP before submitting
@@ -572,16 +640,20 @@ const Fill_Your_Enquiry_form = () => {
           <div className="mt-8 pt-8 border-t border-gray-200">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Shield className="w-4 h-4 text-green-600" />
-              <p className="text-sm font-medium text-gray-700">Your Privacy is Protected</p>
+              <p className="text-sm font-medium text-gray-700">
+                Your Privacy is Protected
+              </p>
             </div>
             <p className="text-xs text-gray-500 text-center">
-              🔒 Your information will be kept confidential and used only to respond to your enquiry. 
-              We do not share your details with third parties.
+              🔒 Your information will be kept confidential and used only to
+              respond to your enquiry. We do not share your details with third
+              parties.
             </p>
             <div className="flex items-center justify-center gap-2 mt-4">
               <AlertCircle className="w-3 h-3 text-blue-500" />
               <p className="text-xs text-blue-600">
-                Need help? Contact support at krishnakumarsnm004_db_user@example.com
+                Need help? Contact support at
+                krishnakumarsnm004_db_user@example.com
               </p>
             </div>
           </div>

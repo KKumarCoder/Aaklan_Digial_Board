@@ -534,17 +534,9 @@ const Leela_Projects_Details = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-[#b50a01] text-white font-bold py-3 px-6 sm:py-4 sm:px-10 lg:py-4 lg:px-12 rounded-xl text-base sm:text-lg lg:text-xl shadow-xl hover:shadow-2xl transition-all"
-                >
-                  EXPLORE PROJECTS
-                </motion.button>
-
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
                   className="bg-transparent border-2 border-white text-white font-bold py-3 px-6 sm:py-4 sm:px-10 lg:py-4 lg:px-12 rounded-xl text-base sm:text-lg lg:text-xl hover:bg-white hover:text-blue-600 transition-all"
                 >
-                  GET STARTED
+                  <a href="/contact"> GET ENQUIRY</a>
                 </motion.button>
               </motion.div>
             </motion.div>
@@ -744,21 +736,7 @@ const Leela_Projects_Details = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.6 }}
                   viewport={{ once: true }}
-                >
-                  <a
-                    href="https://www.aaklan.com/ai-lab"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="bg-[#08214f] text-white font-bold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all text-sm sm:text-base cursor-pointer"
-                    >
-                      Learn More
-                    </motion.button>
-                  </a>
-                </motion.div>
+                ></motion.div>
               </div>
             </motion.div>
           </div>
@@ -801,15 +779,7 @@ const Leela_Projects_Details = () => {
               whileTap={{ scale: 0.95 }}
               className="bg-white text-[#08214f] font-bold py-3 px-8 rounded-xl text-base sm:text-lg shadow-xl hover:shadow-2xl transition-all"
             >
-              GET YOUR KIT
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-xl text-base sm:text-lg hover:bg-white hover:text-[#08214f] transition-all"
-            >
-              VIEW ALL PROJECTS
+              <a href="/contact"> GET YOUR KIT</a>
             </motion.button>
           </motion.div>
         </div>
@@ -910,7 +880,7 @@ const Leela_Projects_Details = () => {
                   whileTap={{ scale: 0.95 }}
                   className="bg-[#08214f] text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all text-base"
                 >
-                  DOWNLOAD PROJECT CATALOG
+                  <a href="/contact"> Raise Enquiry</a>
                 </motion.button>
               </motion.div>
             </motion.div>

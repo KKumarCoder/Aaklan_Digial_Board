@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Menu, Target, X } from "lucide-react";
-import { Link } from "react-router-dom"; // added Link
+import { href, Link } from "react-router-dom"; // added Link
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,7 +10,7 @@ const Navigation = () => {
     { label: "Software", href: "software" },
     { label: "projects", href: "projects" },
     { label: "Documentation", href: "documentation" },
-    { label: "Blogs", href: "news" },
+    { label: "Blogs", href: "blog" },
     { label: "Contact", href: "contact" },
     { label: "Dashboard", href: "dashboard" },
   ];
