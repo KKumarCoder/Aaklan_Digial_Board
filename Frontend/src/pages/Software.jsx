@@ -407,21 +407,11 @@ const Software = () => {
             className="flex flex-col sm:flex-row gap-3 sm:gap-4"
           >
             <motion.button
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 10px 30px rgba(225, 34, 19, 0.3)",
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-gradient-to-r from-[#e12213] to-[#ea8e0a] text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold transition-all shadow-lg"
-            >
-              Start Building Now
-            </motion.button>
-            <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="border-2 border-white text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-white hover:text-gray-900 transition-all"
             >
-              View Documentation
+              <a href="/contact"> Fill Your Enquiry</a>
             </motion.button>
           </motion.div>
         </div>
@@ -443,28 +433,7 @@ const Software = () => {
           ))}
         </div>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="text-white text-xs sm:text-sm flex flex-col items-center"
-          >
-            <span>Scroll to explore</span>
-            <div className="w-4 h-6 sm:w-6 sm:h-10 border-2 border-white rounded-full flex justify-center mt-1 sm:mt-2">
-              <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="w-1 h-2 sm:h-3 bg-white rounded-full mt-1 sm:mt-2"
-              />
-            </div>
-          </motion.div>
-        </motion.div>
+      
       </section>
 
       {/* Features Section */}
@@ -626,7 +595,7 @@ const Software = () => {
             >
               <div className="w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 overflow-hidden rounded-3xl mb-4 sm:mb-6 mx-auto shadow-2xl  group-hover:border-blue-600 transition-all duration-300 transform group-hover:shadow-3xl">
                 <img
-                  src="Get_Start_With_Leela/PictoBlox.png"
+                  src="Get_Start_With_Leela/PictoBlox2.png"
                   alt="PictoBlox Logo"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   loading="lazy"
@@ -674,7 +643,7 @@ const Software = () => {
             >
               <div className="w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 overflow-hidden rounded-3xl mb-4 sm:mb-6 mx-auto shadow-2xl  transition-all duration-300 transform group-hover:shadow-3xl">
                 <img
-                  src="Get_Start_With_Leela/Arduno_ide.png"
+                  src="Get_Start_With_Leela/Ardino_logo.png"
                   alt="Arduino Logo"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   loading="lazy"
