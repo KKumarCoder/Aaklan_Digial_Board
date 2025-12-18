@@ -100,12 +100,12 @@ export default function ProductShowcase() {
             {/* BUTTONS */}
             <div className="flex gap-3 mt-2">
               {/* Normal Enquiry */}
-              <button className="flex-1 bg-[#0F2348] text-white py-2 rounded-lg text-sm font-medium hover:scale-[1.02] transition">
+              {/* <button className="flex-1 bg-[#0F2348] text-white py-2 rounded-lg text-sm font-medium hover:scale-[1.02] transition">
                 Enquiry Now
-              </button>
+              </button> */}
 
               {/* WhatsApp Enquiry */}
-              <a
+              {/* <a
                 href="https://wa.me/918084379164?text=Hello%20Aaklan,%20I%20want%20details%20about%20Leela%20Arduino."
                 target="_blank"
                 rel="noopener noreferrer"
@@ -113,7 +113,7 @@ export default function ProductShowcase() {
               >
                 <FaWhatsapp className="text-lg" />
                 WhatsApp
-              </a>
+              </a> */}
             </div>
           </div>
         </div>

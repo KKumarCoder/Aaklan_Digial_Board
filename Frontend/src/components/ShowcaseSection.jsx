@@ -129,7 +129,7 @@ const ShowcaseSection = () => {
                   <p className="text-white/90 text-lg leading-relaxed mb-6">
                     {item.description}
                   </p>
-               {/* <button className="w-fit px-6 py-3 bg-white/20 backdrop-blur-sm text-white rounded-xl font-semibold hover:bg-white/30 transition-all duration-300 border border-white/30 hover:border-white/50">
+                  {/* <button className="w-fit px-6 py-3 bg-white/20 backdrop-blur-sm text-white rounded-xl font-semibold hover:bg-white/30 transition-all duration-300 border border-white/30 hover:border-white/50">
                     Learn More
                   </button>    */}
                 </div>
@@ -169,8 +169,8 @@ const ShowcaseSection = () => {
 
         {/* CTA */}
         <div className="text-center mt-20">
-          <button className="px-12 py-5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl font-bold text-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-2xl hover:shadow-3xl hover:scale-105 transform">
-            View All Products
+          <button className="px-12 py-5 bg-gradient-to-r from-blue-600 to-red-600 text-white rounded-2xl font-bold text-lg hover:from-blue-700 hover:to-orange-700 transition-all duration-300 shadow-2xl hover:shadow-3xl hover:scale-105 transform">
+            Enquiry Now
             <span className="ml-3">→</span>
           </button>
         </div>

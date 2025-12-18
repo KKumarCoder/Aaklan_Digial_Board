@@ -86,10 +86,6 @@ export default function WhatIsLeelaSection() {
             style={{ transitionDelay: isVisible ? "100ms" : "0ms" }}
           >
             <div className="mb-6">
-              <span className="inline-block px-4 py-2 bg-[#E98F0B]/10 text-[#E98F0B] rounded-full text-md font-semibold mb-4">
-                About Leela
-              </span>
-
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#0F2348] mb-4">
                 The easy-to-learn robotics hardware and software platform.
               </h2>

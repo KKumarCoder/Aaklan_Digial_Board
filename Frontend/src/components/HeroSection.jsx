@@ -124,23 +124,6 @@ const HeroSection = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            {/* Premium Badge */}
-            <motion.div
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-50 to-red-50 border-2 border-orange-300 rounded-full px-5 py-3 w-fit shadow-lg"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              whileHover={{
-                scale: 1.05,
-                borderColor: "rgba(249, 115, 22, 0.6)",
-              }}
-            >
-              <Sparkles className="w-5 h-5 text-orange-600" />
-              <span className="text-sm font-bold text-gray-800">
-                Next-Gen Robotics Platform
-              </span>
-            </motion.div>
-
             {/* Main Heading */}
             <motion.div
               className="space-y-4"
