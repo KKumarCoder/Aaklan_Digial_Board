@@ -1,291 +1,505 @@
-import { useState, useMemo } from "react";
-import { Download, RefreshCw, Eye, X } from "lucide-react";
-
-/* ---------------- DUMMY DATA (9 ENTRIES) ---------------- */
-const DUMMY_ENQUIRIES = [
-  {
-    _id: "1",
-    name: "Test User",
-    email: "test@gmail.com",
-    mobile: "918340202627",
-    subject: "Test Email Configuration",
-    message: "Testing email and dashboard UI",
-    status: "new",
-    createdAt: "17/12/2025, 09:43:50",
-  },
-  {
-    _id: "2",
-    name: "Krishna Kumar",
-    email: "krishnakumar.snm004@gmail.com",
-    mobile: "8340202627",
-    subject: "Why Choose Us?",
-    message: "I want to know more about your services",
-    status: "new",
-    createdAt: "17/12/2025, 09:30:21",
-  },
-  {
-    _id: "3",
-    name: "Krishna Kumar",
-    email: "krishna.22jics139@jietjodhpur.ac.in",
-    mobile: "8340202627",
-    subject: "Enquiry about Aaklan Nexus Kit",
-    message: "Please share details about Nexus Kit",
-    status: "contacted",
-    createdAt: "16/12/2025, 23:45:43",
-  },
-  {
-    _id: "4",
-    name: "Krishna Kumar",
-    email: "krishnakumar.snm004@gmail.com",
-    mobile: "+918340202627",
-    subject: "All configurations updated successfully!",
-    message: "Everything is working perfectly now",
-    status: "contacted",
-    createdAt: "16/12/2025, 22:30:57",
-  },
-  {
-    _id: "5",
-    name: "Krishna Kumar",
-    email: "krishna.22jics139@jietjodhpur.ac.in",
-    mobile: "+918340202627",
-    subject: "Order for Leela Arduino Board",
-    message: "I want to place an order",
-    status: "new",
-    createdAt: "16/12/2025, 22:28:28",
-  },
-  {
-    _id: "6",
-    name: "Krishna Kumar",
-    email: "krishna.22jics139@jietjodhpur.ac.in",
-    mobile: "+918340202627",
-    subject: "Enquiry about Aaklan Nexus Kit",
-    message: "Need pricing and availability",
-    status: "new",
-    createdAt: "16/12/2025, 20:47:43",
-  },
-  {
-    _id: "7",
-    name: "Krishna Kumar",
-    email: "krishna.22jics139@jietjodhpur.ac.in",
-    mobile: "8340202627",
-    subject: "Enquiry about Aaklan Wonder Kit",
-    message: "Looking for demo and documentation",
-    status: "new",
-    createdAt: "16/12/2025, 18:45:07",
-  },
-  {
-    _id: "8",
-    name: "Krishna Kumar",
-    email: "krishna.22jics139@jietjodhpur.ac.in",
-    mobile: "8340202627",
-    subject: "Challenges in your learning journey",
-    message: "Facing some difficulties while learning",
-    status: "new",
-    createdAt: "16/12/2025, 18:40:33",
-  },
-  {
-    _id: "9",
-    name: "Krishna Kumar",
-    email: "krishna.22jics139@jietjodhpur.ac.in",
-    mobile: "8340202627",
-    subject: "Resolved demo enquiry",
-    message: "Issue resolved successfully",
-    status: "resolved",
-    createdAt: "15/12/2025, 14:12:10",
-  },
-];
+import React, { useState, useEffect, useCallback } from "react";
+import axios from "axios";
+import { format, formatDistanceToNow } from "date-fns";
 
 const AdminDashboard = () => {
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  const [selected, setSelected] = useState(null);
+  const [enquiries, setEnquiries] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedEnquiry, setSelectedEnquiry] = useState(null);
+  const [note, setNote] = useState("");
+  const [status, setStatus] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [stats, setStats] = useState({
+    total: 0,
+    new: 0,
+    contacted: 0,
+    inProgress: 0,
+    resolved: 0,
+  });
 
-  /* ---------------- FILTER LOGIC ---------------- */
-  const filtered = useMemo(() => {
-    return DUMMY_ENQUIRIES.filter((e) => {
-      const matchSearch =
-        e.name.toLowerCase().includes(search.toLowerCase()) ||
-        e.email.toLowerCase().includes(search.toLowerCase()) ||
-        e.mobile.includes(search) ||
-        e.subject.toLowerCase().includes(search.toLowerCase());
+  const API_URL = "http://localhost:5000/api/enquiries";
 
-      const matchStatus = statusFilter ? e.status === statusFilter : true;
+  const fetchEnquiries = useCallback(async () => {
+    try {
+      setLoading(true);
+      const params = new URLSearchParams();
+      if (searchTerm) params.append("search", searchTerm);
+      if (statusFilter !== "All") params.append("status", statusFilter);
 
-      return matchSearch && matchStatus;
-    });
-  }, [search, statusFilter]);
+      const response = await axios.get(`${API_URL}?${params.toString()}`);
 
-  /* ---------------- STATS ---------------- */
-  const total = DUMMY_ENQUIRIES.length;
-  const newCount = DUMMY_ENQUIRIES.filter((e) => e.status === "new").length;
-  const contactedCount = DUMMY_ENQUIRIES.filter(
-    (e) => e.status === "contacted"
-  ).length;
-  const resolvedCount = DUMMY_ENQUIRIES.filter(
-    (e) => e.status === "resolved"
-  ).length;
+      if (response.data.success) {
+        setEnquiries(response.data.data);
+        if (response.data.statusCounts) {
+          setStats({
+            total: response.data.statusCounts.Total || 0,
+            new: response.data.statusCounts.New || 0,
+            contacted: response.data.statusCounts.Contacted || 0,
+            inProgress: response.data.statusCounts["In Progress"] || 0,
+            resolved: response.data.statusCounts.Resolved || 0,
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching enquiries:", error);
+      alert("Failed to load enquiries. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }, [searchTerm, statusFilter]);
 
-  const exportCSV = () => {
-    const headers = ["Name", "Email", "Mobile", "Subject", "Status"];
-    const rows = filtered.map((e) =>
-      [e.name, e.email, e.mobile, e.subject, e.status].join(",")
-    );
-    const csv = [headers.join(","), ...rows].join("\n");
+  useEffect(() => {
+    fetchEnquiries();
 
-    const blob = new Blob([csv], { type: "text/csv" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "enquiries.csv";
-    link.click();
+    // Refresh every 30 seconds
+    const interval = setInterval(fetchEnquiries, 30000);
+    return () => clearInterval(interval);
+  }, [fetchEnquiries]);
+
+  const handleUpdate = async () => {
+    if (!selectedEnquiry || (!note && !status)) return;
+
+    try {
+      await axios.put(`${API_URL}/${selectedEnquiry._id}`, {
+        note,
+        status,
+      });
+
+      // Refresh enquiries
+      fetchEnquiries();
+
+      // Clear form
+      setNote("");
+      setStatus("");
+      setSelectedEnquiry(null);
+
+      alert("✅ Enquiry updated successfully");
+    } catch (error) {
+      console.error("Error updating enquiry:", error);
+      alert("❌ Failed to update enquiry");
+    }
   };
 
-  const badge = (status) => {
-    const map = {
-      new: "bg-blue-100 text-blue-700",
-      contacted: "bg-yellow-100 text-yellow-700",
-      resolved: "bg-green-100 text-green-700",
-    };
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "New":
+        return "bg-blue-100 text-blue-800";
+      case "Contacted":
+        return "bg-yellow-100 text-yellow-800";
+      case "In Progress":
+        return "bg-purple-100 text-purple-800";
+      case "Resolved":
+        return "bg-green-100 text-green-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case "New":
+        return "🆕";
+      case "Contacted":
+        return "📞";
+      case "In Progress":
+        return "🔄";
+      case "Resolved":
+        return "✅";
+      default:
+        return "📋";
+    }
+  };
+
+  const formatDate = (dateString) => {
+    try {
+      const date = new Date(dateString);
+      return format(date, "dd/MM/yyyy, HH:mm:ss");
+    } catch {
+      return dateString;
+    }
+  };
+
+  const getTimeAgo = (dateString) => {
+    try {
+      return formatDistanceToNow(new Date(dateString), { addSuffix: true });
+    } catch {
+      return "";
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this enquiry?"))
+      return;
+
+    try {
+      await axios.delete(`${API_URL}/${id}`);
+      fetchEnquiries();
+      alert("Enquiry deleted successfully");
+    } catch (error) {
+      alert("Failed to delete enquiry");
+    }
+  };
+
+  const exportToCSV = () => {
+    const headers = [
+      "S.No",
+      "Date",
+      "Name",
+      "Email",
+      "Phone",
+      "Subject",
+      "Status",
+      "Message",
+    ];
+    const csvData = enquiries.map((enq, index) => [
+      index + 1,
+      formatDate(enq.createdAt),
+      enq.name,
+      enq.email,
+      enq.phone,
+      enq.subject,
+      enq.status,
+      enq.message.replace(/,/g, ";"), // Replace commas to avoid CSV issues
+    ]);
+
+    const csvContent = [
+      headers.join(","),
+      ...csvData.map((row) => row.join(",")),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `enquiries_${new Date().toISOString().split("T")[0]}.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
+  if (loading && enquiries.length === 0) {
     return (
-      <span
-        className={`px-3 py-1 rounded-full text-xs font-semibold ${map[status]}`}
-      >
-        {status.toUpperCase()}
-      </span>
+      <div className="flex justify-center items-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading enquiries...</p>
+        </div>
+      </div>
     );
-  };
+  }
 
   return (
-    <div className="mt-16 bg-slate-100 p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold">Enquiries Dashboard</h1>
-          <p className="text-slate-600">
-            Manage all customer enquiries in one place
-          </p>
+    <div className="container mx-auto px-4 py-8">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">
+          Enquiries Dashboard
+        </h1>
+        <p className="text-gray-600">
+          Manage all customer enquiries in one place
+        </p>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+        <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-xl shadow">
+          <div className="text-3xl font-bold mb-2">{stats.total}</div>
+          <div className="text-sm opacity-90">Total Enquiries</div>
         </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <StatCard title="Total Enquiries" value={total} />
-          <StatCard title="New" value={newCount} color="text-blue-600" />
-          <StatCard
-            title="Contacted"
-            value={contactedCount}
-            color="text-yellow-600"
-          />
-          <StatCard
-            title="Resolved"
-            value={resolvedCount}
-            color="text-green-600"
-          />
+        <div className="bg-gradient-to-r from-blue-400 to-cyan-500 text-white p-6 rounded-xl shadow">
+          <div className="text-3xl font-bold mb-2">{stats.new}</div>
+          <div className="text-sm opacity-90">New</div>
         </div>
+        <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-white p-6 rounded-xl shadow">
+          <div className="text-3xl font-bold mb-2">{stats.contacted}</div>
+          <div className="text-sm opacity-90">Contacted</div>
+        </div>
+        <div className="bg-gradient-to-r from-purple-400 to-purple-500 text-white p-6 rounded-xl shadow">
+          <div className="text-3xl font-bold mb-2">{stats.inProgress}</div>
+          <div className="text-sm opacity-90">In Progress</div>
+        </div>
+        <div className="bg-gradient-to-r from-green-400 to-green-500 text-white p-6 rounded-xl shadow">
+          <div className="text-3xl font-bold mb-2">{stats.resolved}</div>
+          <div className="text-sm opacity-90">Resolved</div>
+        </div>
+      </div>
 
-        {/* Filters */}
-        <div className="bg-white p-4 rounded-xl shadow flex flex-col md:flex-row gap-4">
-          <input
-            placeholder="Search by name, email, mobile, subject..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 border rounded-lg px-4 py-2"
-          />
-
+      {/* Filters */}
+      <div className="bg-white rounded-xl shadow p-6 mb-6">
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex-1">
+            <input
+              type="text"
+              placeholder="Search by name, email, phone, subject..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="border rounded-lg px-4 py-2"
+            className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
-            <option value="">All Status</option>
-            <option value="new">New</option>
-            <option value="contacted">Contacted</option>
-            <option value="resolved">Resolved</option>
+            <option value="All">All Status</option>
+            <option value="New">New</option>
+            <option value="Contacted">Contacted</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
           </select>
-
-          <button className="flex items-center gap-2 border px-4 py-2 rounded-lg">
-            <RefreshCw size={16} /> Refresh
-          </button>
-
           <button
-            onClick={exportCSV}
-            className="flex items-center gap-2 border px-4 py-2 rounded-lg"
+            onClick={() => {
+              setSearchTerm("");
+              setStatusFilter("All");
+            }}
+            className="px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
           >
-            <Download size={16} /> Export CSV
+            Clear Filters
+          </button>
+          <button
+            onClick={exportToCSV}
+            className="px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700"
+          >
+            Export CSV
           </button>
         </div>
+      </div>
 
-        {/* Table */}
-        <div className="bg-white rounded-xl shadow overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-slate-50">
-              <tr>
-                <th className="p-3 text-left">Date & Time</th>
-                <th className="p-3 text-left">Name</th>
-                <th className="p-3 text-left">Email</th>
-                <th className="p-3 text-left">Mobile</th>
-                <th className="p-3 text-left">Subject</th>
-                <th className="p-3 text-left">Status</th>
-                <th className="p-3 text-left">View</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((e) => (
-                <tr key={e._id} className="border-t hover:bg-slate-50">
-                  <td className="p-3">{e.createdAt}</td>
-                  <td className="p-3 font-medium">{e.name}</td>
-                  <td className="p-3">{e.email}</td>
-                  <td className="p-3">{e.mobile}</td>
-                  <td className="p-3 truncate max-w-xs">{e.subject}</td>
-                  <td className="p-3">{badge(e.status)}</td>
-                  <td className="p-3">
-                    <button onClick={() => setSelected(e)}>
-                      <Eye size={16} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Modal */}
-        {selected && (
-          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-            <div className="bg-white max-w-lg w-full p-6 rounded-xl relative">
-              <button
-                onClick={() => setSelected(null)}
-                className="absolute top-4 right-4"
-              >
-                <X />
-              </button>
-              <h2 className="text-xl font-bold mb-4">Enquiry Details</h2>
-              <p>
-                <b>Name:</b> {selected.name}
-              </p>
-              <p>
-                <b>Email:</b> {selected.email}
-              </p>
-              <p>
-                <b>Mobile:</b> {selected.mobile}
-              </p>
-              <p>
-                <b>Subject:</b> {selected.subject}
-              </p>
-              <p>
-                <b>Message:</b> {selected.message}
-              </p>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Main Table */}
+        <div className="lg:col-span-2">
+          <div className="bg-white rounded-xl shadow overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      S.No
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Date & Time
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Name
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Subject
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {enquiries.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan="6"
+                        className="px-6 py-8 text-center text-gray-500"
+                      >
+                        No enquiries found
+                      </td>
+                    </tr>
+                  ) : (
+                    enquiries.map((enquiry, index) => (
+                      <tr
+                        key={enquiry._id}
+                        className="hover:bg-gray-50 transition-colors"
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {index + 1}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {formatDate(enquiry.createdAt)}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {getTimeAgo(enquiry.createdAt)}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm font-medium text-gray-900">
+                            {enquiry.name}
+                          </div>
+                          <div className="text-xs text-gray-500 truncate max-w-[150px]">
+                            {enquiry.email}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {enquiry.phone}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-900 truncate max-w-[200px]">
+                            {enquiry.subject}
+                          </div>
+                          <div className="text-xs text-gray-500 truncate max-w-[200px]">
+                            {enquiry.message.substring(0, 50)}...
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span
+                            className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
+                              enquiry.status
+                            )}`}
+                          >
+                            <span className="mr-1">
+                              {getStatusIcon(enquiry.status)}
+                            </span>
+                            {enquiry.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                          <button
+                            onClick={() => setSelectedEnquiry(enquiry)}
+                            className="text-blue-600 hover:text-blue-900"
+                          >
+                            View/Update
+                          </button>
+                          <button
+                            onClick={() => handleDelete(enquiry._id)}
+                            className="text-red-600 hover:text-red-900"
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
-        )}
+        </div>
+
+        {/* Update Panel */}
+        <div className="lg:col-span-1">
+          <div className="bg-white rounded-xl shadow p-6 sticky top-6">
+            {selectedEnquiry ? (
+              <>
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Update Enquiry
+                  </h3>
+                  <button
+                    onClick={() => {
+                      setSelectedEnquiry(null);
+                      setNote("");
+                      setStatus("");
+                    }}
+                    className="text-gray-400 hover:text-gray-600"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Customer Info */}
+                <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+                  <h4 className="font-medium text-gray-700 mb-2">
+                    Customer Details
+                  </h4>
+                  <p className="text-sm text-gray-900">
+                    <strong>Name:</strong> {selectedEnquiry.name}
+                  </p>
+                  <p className="text-sm text-gray-900">
+                    <strong>Email:</strong> {selectedEnquiry.email}
+                  </p>
+                  <p className="text-sm text-gray-900">
+                    <strong>Phone:</strong> {selectedEnquiry.phone}
+                  </p>
+                  <p className="text-sm text-gray-900">
+                    <strong>Subject:</strong> {selectedEnquiry.subject}
+                  </p>
+                  <p className="text-sm text-gray-900 mt-2">
+                    <strong>Message:</strong> {selectedEnquiry.message}
+                  </p>
+                </div>
+
+                {/* Status Update */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Update Status
+                  </label>
+                  <select
+                    value={status || selectedEnquiry.status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="">Select Status</option>
+                    <option value="New">New</option>
+                    <option value="Contacted">Contacted</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Resolved">Resolved</option>
+                  </select>
+                </div>
+
+                {/* Add Note */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Add Follow-up Note
+                  </label>
+                  <textarea
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
+                    rows="4"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Add your notes here..."
+                  />
+                </div>
+
+                {/* Current Notes */}
+                {selectedEnquiry.notes && selectedEnquiry.notes.length > 0 && (
+                  <div className="mb-6">
+                    <h4 className="text-sm font-medium text-gray-700 mb-2">
+                      Previous Notes
+                    </h4>
+                    <div className="space-y-3 max-h-48 overflow-y-auto">
+                      {selectedEnquiry.notes.map((noteItem, idx) => (
+                        <div key={idx} className="p-3 bg-blue-50 rounded-lg">
+                          <p className="text-sm text-gray-800">
+                            {noteItem.note}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            {getTimeAgo(noteItem.createdAt)}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Buttons */}
+                <div className="flex space-x-3">
+                  <button
+                    onClick={handleUpdate}
+                    disabled={!note && !status}
+                    className="flex-1 px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Save Updates
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="text-center py-8">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  📋
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  No enquiry selected
+                </h3>
+                <p className="text-gray-600">
+                  Select an enquiry from the table to view details and update
+                  status.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
 };
-
-const StatCard = ({ title, value, color = "text-slate-900" }) => (
-  <div className="bg-white p-6 rounded-xl shadow text-center">
-    <p className="text-slate-500">{title}</p>
-    <h2 className={`text-3xl font-bold ${color}`}>{value}</h2>
-  </div>
-);
 
 export default AdminDashboard;
