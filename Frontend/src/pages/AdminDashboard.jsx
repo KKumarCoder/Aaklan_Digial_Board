@@ -18,7 +18,7 @@ const AdminDashboard = () => {
     resolved: 0,
   });
 
-  const API_URL = "http://localhost:5000/api/enquiries";
+  const API_URL = "https://leel-backend-server.onrender.com/api/enquiries";
 
   const fetchEnquiries = useCallback(async () => {
     try {

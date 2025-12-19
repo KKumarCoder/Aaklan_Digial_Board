@@ -20,7 +20,7 @@ const Fill_Your_Enquiry_form = () => {
   const [isResendEnabled, setIsResendEnabled] = useState(true);
 
   const navigate = useNavigate();
-  const API_URL = "http://localhost:5000/api/enquiries";
+  const API_URL = "https://leel-backend-server.onrender.com/api/enquiries";
 
   // Timer for OTP resend
   useEffect(() => {
